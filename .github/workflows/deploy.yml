@@ -37,7 +37,7 @@ jobs:
       - name: Install figpack
         run: |
           pip install figpack
-          pip install figpack_slides
+          figpack extensions install figpack_slides
       
       - name: Generate build directory
         run: python index.py
