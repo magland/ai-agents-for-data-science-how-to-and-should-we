@@ -34,10 +34,11 @@ jobs:
       - name: Pull spurious discovery tests
         run: ./pull-spurious-discovery-tests.sh
       
-      - name: Install figpack
+      - name: Install Python dependencies
         run: |
           pip install figpack
           figpack extensions install figpack_slides
+          pip install numpy pandas matplotlib
       
       - name: Generate build directory
         run: python index.py
