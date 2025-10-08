@@ -256,5 +256,10 @@ def embed_images_as_base64(markdown_content: str, base_dir: str) -> str:
             # If image file not found, leave the reference as is and move past it
             search_pos = path_end + 1
             continue
+        except Exception as e:
+            # If any other error occurs (PermissionError, IOError, etc.),
+            # leave the reference as is and move past it to avoid infinite loop
+            search_pos = path_end + 1
+            continue
 
     return result
