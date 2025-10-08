@@ -39,6 +39,7 @@ jobs:
           pip install figpack
           figpack extensions install figpack_slides
           pip install numpy pandas matplotlib
+          pip install "zarr<3"
       
       - name: Generate build directory
         run: python index.py
