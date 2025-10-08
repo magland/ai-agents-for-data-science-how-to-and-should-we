@@ -196,44 +196,29 @@ def embed_images_as_base64(markdown_content: str, base_dir: str) -> str:
     Returns:
         Modified markdown with images embedded as base64 data URIs
     """
-    result = markdown_content
-    search_pos = 0
-
-    # Process all image references: ![alt text](image.png)
-    while search_pos < len(result):
-        # Find the start of an image reference from current position
-        img_start = result.find("![", search_pos)
-        if img_start == -1:
-            break
-
-        # Find the closing ] for alt text
-        alt_end = result.find("](", img_start)
-        if alt_end == -1:
-            break
-
-        # Find the closing ) for the image path
-        path_end = result.find(")", alt_end + 2)
-        if path_end == -1:
-            break
-
-        # Extract the image filename
-        image_filename = result[alt_end + 2 : path_end]
-
+    import re
+    
+    # Pattern to match markdown images: ![alt text](image.png)
+    image_pattern = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
+    
+    def replace_image(match):
+        """Replace function to convert image reference to base64 data URI."""
+        alt_text = match.group(1)
+        image_filename = match.group(2)
+        
         # Skip if it's already a data URI or absolute URL
         if image_filename.startswith("data:") or image_filename.startswith("http"):
-            # Move search position past this image
-            search_pos = path_end + 1
-            continue
-
+            return match.group(0)  # Return original match unchanged
+        
         # Build full path to the image file
         image_path = os.path.join(base_dir, image_filename)
-
+        
         # Read and encode the image
         try:
             with open(image_path, "rb") as img_file:
                 image_data = img_file.read()
                 base64_data = base64.b64encode(image_data).decode("utf-8")
-
+                
                 # Determine image type from extension
                 ext = os.path.splitext(image_filename)[1].lower()
                 mime_type = {
@@ -243,23 +228,15 @@ def embed_images_as_base64(markdown_content: str, base_dir: str) -> str:
                     ".gif": "image/gif",
                     ".svg": "image/svg+xml",
                 }.get(ext, "image/png")
-
+                
                 # Create data URI
                 data_uri = f"data:{mime_type};base64,{base64_data}"
-
-                # Replace the filename with the data URI
-                result = result[: alt_end + 2] + data_uri + result[path_end:]
-
-                # Move search position to after the replacement
-                search_pos = alt_end + 2 + len(data_uri)
-        except FileNotFoundError:
-            # If image file not found, leave the reference as is and move past it
-            search_pos = path_end + 1
-            continue
-        except Exception as e:
-            # If any other error occurs (PermissionError, IOError, etc.),
-            # leave the reference as is and move past it to avoid infinite loop
-            search_pos = path_end + 1
-            continue
-
-    return result
+                
+                # Return the replacement with base64 data
+                return f"![{alt_text}]({data_uri})"
+        except (FileNotFoundError, PermissionError, IOError, OSError):
+            # If any error occurs, return the original match unchanged
+            return match.group(0)
+    
+    # Use re.sub to replace all image references
+    return image_pattern.sub(replace_image, markdown_content)
