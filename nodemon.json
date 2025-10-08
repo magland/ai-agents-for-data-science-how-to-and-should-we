@@ -1,0 +1,18 @@
+{
+  "watch": [
+    "index.md",
+    "index.py",
+    "figpack_helpers/",
+    "spurious-discovery-tests/"
+  ],
+  "ignore": [
+    "build/",
+    "node_modules/",
+    ".git/",
+    "**/__pycache__/",
+    "**/*.pyc"
+  ],
+  "ext": "py,md",
+  "exec": "python index.py",
+  "delay": "1000"
+}
