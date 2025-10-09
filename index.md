@@ -93,7 +93,7 @@ section-break
     - Lack of transparency in decision-making
 * Ethical considerations
     - Biases in training data
-    - Privacy concerns
+    - Plagiarism and intellectual property issues
     - Environmental impact
 * Over-reliance on automation
     - Risk of losing critical thinking skills
@@ -370,3 +370,37 @@ section-break
 
 <iframe src="https://magland.github.io/spurious-discovery-tests/"></iframe>
 
+---
+
+# Summary
+
+**AI Agents for Data Science**
+
+**Opportunities**:
+* Automate and acclerate data analysis
+* Enable new discoveries and insights
+* Lower barriers to working with data
+
+**Challenges**:
+* Reliability and trustworthiness
+* Ethical and societal implications
+* Risk of over-reliance on automation and bad science practices
+
+section-break
+
+![Cautious Optimism](./images/cautious-optimism.png)
+
+---
+
+# Thank You!
+
+**Neurodata Without Borders Team**:
+
+* Ryan Ly - Lawrence Berkeley National Laboratory
+* Oliver Ruebel - Lawrence Berkeley National Laboratory
+* Benjamin Dichter - CatalystNeuro
+
+**DANDI Team**:
+* Satrajit Ghosh - MIT, Harvard Medical School
+* Yaroslav Halchenko - Dartmouth College
+* Benjamin Dichter - CatalystNeuro
