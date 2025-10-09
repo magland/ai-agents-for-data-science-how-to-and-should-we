@@ -1,10 +1,10 @@
 # AI Agents for Data Science: How To and Should We?
 
-layout: title
+slide-type <- title
 
-subtitle: Flatiron-Wide Autumn Meeting, October 2025
+subtitle <- Flatiron-Wide Autumn Meeting, October 2025
 
-author: Jeremy Magland, Center for Computational Mathematics, Flatiron Institute
+author <- Jeremy Magland, Center for Computational Mathematics, Flatiron Institute
 
 ---
 
@@ -20,7 +20,7 @@ A software agent is a system that can:
 * Has goal temperature
 * Acts by turning heating/cooling on or off
 
-column-break
+section-break
 
 ![Thermostat](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Thermostat_science_photo.jpg/1200px-Thermostat_science_photo.jpg)
 
@@ -35,7 +35,7 @@ An AI agent is a software agent that uses artificial intelligence techniques to 
 * Has goals (reach destination safely and efficiently)
 * Acts by controlling the vehicle (steering, acceleration, braking)
 
-column-break
+section-break
 
 ![Waymo Self-Driving Car](https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Waymo_self-driving_car_front_view.gk.jpg/1200px-Waymo_self-driving_car_front_view.gk.jpg)
 
@@ -58,7 +58,7 @@ column-break
 
 **Final output**: An exploratory report showing meaningful patterns discovered automatically
 
-column-break
+section-break
 
 ![example data exploration plot](./images/example_data_exploration_plot.png)
 
@@ -68,17 +68,17 @@ column-break
 
 ### Potential benefits
 
-* Improved productivity
+* Productivity
     - Automate repetitive tasks
     - Accelerate analysis
-* Discover new insights
+* Discovery
     - Uncover hidden patterns
     - Generate hypotheses that a human might miss
-* Democratize data science
+* Accessibility
     - Make data science accessible to non-experts
     - Lower the barrier to entry
 
-column-break
+section-break
 
 ![fastest animal](https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Fastest_animal.jpg/1200px-Fastest_animal.jpg?20210526203921)
 
@@ -99,13 +99,174 @@ column-break
     - Risk of losing critical thinking skills
     - Importance of human oversight
 
-column-break
+section-break
 
 ![cautious animal](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Culpeo_MC.jpg/640px-Culpeo_MC.jpg)
 
 ---
 
-# DANDI Archive
+# How to build an AI Agent?
+
+**Key components:**
+* LLM (e.g., GPT-4, Claude)
+* Toolset (e.g., Python, R, SQL, shell commands)
+* Reasoning framework
+
+section-break
+
+![How to build an AI Agent](./images/how-to-build-ai-agent-diagram.png)
+
+---
+
+# How to build an AI Agent?
+
+Here's a simple example of an AI agent that explores a dataset and generates visualizations.
+
+section-break
+
+font <- small
+
+**System prompt:** You are an expert data scientist. Your task is to explore a dataset and generate visualizations. You have access to Python and common data science libraries (pandas, matplotlib, seaborn, etc.). You can also use shell commands to manage files.
+
+In your response you can respond with the following tool calls
+
+```xml
+<tool name="execute_python">
+# Python code here
+</tool>
+
+<tool name="read_file">
+Path to file here
+</tool>
+
+<tool name="write_file">
+Path to file here
+</tool>
+
+<tool name="execute_shell">
+# Shell command here
+</tool>
+
+etc.
+```
+
+Do not hallucinate, etc., etc.
+
+---
+
+# How to build an AI Agent?
+
+font <- small
+
+**System prompt**: as in previous slide
+
+**User**: Please analyze the dataset `data.csv` and generate visualizations.
+
+**Assistant**: Sure! I will start by loading and summarizing the dataset.
+
+```xml
+<tool name="execute_python">
+import pandas as pd
+df = pd.read_csv('data.csv')
+summary = df.describe()
+summary.to_csv('summary.csv')
+</tool>
+```
+
+**Tool response**: Executed Python code. No console output.
+
+**Assistant**: I have loaded the dataset and generated a summary. The summary is saved in `summary.csv`. Next, I will read the summary file.
+
+```xml
+<tool name="read_file">
+summary.csv
+</tool>
+```
+
+**Tool response**: (Contents of summary.csv)
+
+section-break
+
+font <- small
+
+**Assistant**: I have read the summary of the dataset. Next, I will generate a plot depicting the distribution of a key variable.
+
+```xml
+<tool name="execute_python">
+import matplotlib.pyplot as plt
+...
+plt.savefig('plot.png')
+```
+
+Tool response: Executed Python code. No console output.
+
+**Assistant**: I have generated a plot and saved it as `plot.png`.
+
+```xml
+<tool name="end">
+The analysis is complete. The summary is in `summary.csv` and the plot is in `plot.png`.
+</tool>
+```
+
+---
+
+# Accessing the LLM
+
+**Options for accessing LLMs:**
+
+* OpenAI API (e.g., GPT-4, GPT-3.5)
+* Anthropic API (e.g., Claude)
+* OpenRouter API (access to many models)
+* Local models (e.g., LLaMA, GPT4All, Mistral)
+
+API calls typically involve sending a conversation history and receiving a response.
+
+To implement an agent, you would loop over this process, feeding tool outputs back into the LLM as new messages.
+
+section-break
+
+font <- small
+
+**What does an API call look like?**
+```python
+import openai
+
+response = openai.ChatCompletion.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant... etc."},
+        {"role": "user", "content": "Please analyze the dataset `data.csv` and generate visualizations."}
+    ],
+    temperature=0.7
+)
+
+tool_calls = response.get("tool_calls", [])
+text_response = response.get("choices", [])[0]["content"]
+
+print("LLM response:", text_response)
+if tool_calls:
+    for tool_call in tool_calls:
+        tool_name = tool_call["name"]
+        tool_args = tool_call.get("arguments", "")
+        # Execute the tool call
+        print(f"Executing tool: {tool_name} with args: {tool_args}")
+```
+
+---
+
+# Minicline
+
+Cline is a popular coding companion agent that integrates with VSCode. It works well for software engineering tasks, but is complex and has many dependencies, including VSCode itself.
+
+Minicline is a simplified Python and command-line interface geared toward data science tasks.
+
+section-break
+
+<iframe src="https://magland.github.io/minicline/"></iframe>
+
+---
+
+# Application: DANDI Archive
 
 The DANDI Archive allows publishing and sharing neurophysiology data
 
@@ -113,7 +274,7 @@ The DANDI Archive allows publishing and sharing neurophysiology data
 * Supports reproducible research
 * Provides rich metadata and search capabilities
 
-column-break
+section-break
 
 
 ![DANDI Archive](./images/dandi-archive.png)
@@ -130,7 +291,7 @@ Example dataset: Calcium imaging in SMA and M1 of macaques
 
 How does one get started exploring this dataset??
 
-column-break
+section-break
 
 ![Dandiset 001174](./images/dandiset-001174.png)
 
@@ -146,7 +307,7 @@ Example dataset: Calcium imaging in SMA and M1 of macaques
 
 How does one get started exploring this dataset??
 
-column-break
+section-break
 
 ![Dandiset 001174 Files](./images//dandiset-001174-files.png)
 
@@ -156,52 +317,56 @@ column-break
 
 On the right is an example of using an AI agent to explore a DANDI dataset.
 
-column-break
+The chat agent is equipped with the following tools:
+* DANDI API access for retrieving metadata and file listings
+* Python execution environment with common data science libraries
+* Specialized usage information for NWB files
+
+The agent can view the text and image output of executed code and can iteratively refine its analysis.
+
+section-break
 
 <iframe src="https://dandiset-explorer.vercel.app/chat/de_1759960923445?dandisetId=001174&dandisetVersion=draft"></iframe>
 
 ---
 
-# Explorator Chat for a DANDI Dataset
+# What could possibly go wrong?
 
-Here is an example of using an AI agent to explore a DANDI dataset.
-
-column-break
-
-<iframe src="https://dandiset-explorer.vercel.app/chat/de_1759959244459?dandisetId=000537&dandisetVersion=draft"></iframe>
+![Robots working](./images/robots-working.png)
 
 ---
 
-# The first slide
+# How much should we trust the results?
 
-This is the first slide.
+We programmed the AI agents to explore the DANDI archive, autonomously analyzing datasets and generating reports.
 
-column-break
+What we found:
+* Produced all kinds of fantastic notebooks and visualizations.
+* Impressive at first glance.
+* Deeper analysis revealed many instances of 'crappy' science.
 
-This is the right side of the first slide.
+The example to the right is a typical case. Dizzying amounts of code. Scroll to the bottom to see the conclusions. Mingled with the correct statements are many incorrect ones.
 
-* bullet 1
-* bullet 2
-* bullet 3
+section-break
 
----
-
-# The second slide
-
-This is the second slide.
-
-column-break
-
-:::plot-1:::
+<iframe src="https://nbfiddle.app/?url=https://github.com/dandi-ai-notebooks/001363/blob/main/2025-04-18-claude-3.7-sonnet-prompt-b-5/001363.ipynb"></iframe>
 
 ---
 
-# Test
+# Spurious Discovery Tests
 
-A test
+**Aproach**
 
-column-break
+* Generated 4 fake datasets with no real underlying signal.
+* Asked AI agents to analyze them.
+* Checked if they correctly found *nothing*.
 
-./spurious-discovery-tests/examples/temporal_autocorrelation_01/tests/claude-sonnet-4/working/report.md
+**Results**
 
----
+* Most agents found spurious correlations and patterns (i.e., false discoveries).
+* Highlights a key risk: **AI can confidently produce false science**.
+
+section-break
+
+<iframe src="https://magland.github.io/spurious-discovery-tests/"></iframe>
+
