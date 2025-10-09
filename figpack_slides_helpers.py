@@ -118,42 +118,6 @@ def parse_slides(md_content):
     return slides
 
 
-def create_title_slide(title: str, section: dict, *, background_color: str):
-    metadata = section.get("metadata", {})
-    subtitle = metadata.get("subtitle", "")
-    author = metadata.get("author", "")
-
-    return fps.TitleSlide(
-        title=fps.SlideText(
-            text=title,
-            font_size=80,
-            font_family="SANS-SERIF",
-            color="white",
-        ),
-        subtitle=(
-            fps.SlideText(
-                text=subtitle,
-                font_size=40,
-                font_family="SANS-SERIF",
-                color="white",
-            )
-            if subtitle
-            else None
-        ),
-        author=(
-            fps.SlideText(
-                text=author,
-                font_size=30,
-                font_family="SANS-SERIF",
-                color="white",
-            )
-            if author
-            else None
-        ),
-        background_color=background_color,
-    )
-
-
 def process_section(section: dict):
     content = section.get("content", "")
     metadata = section.get("metadata", {})
@@ -202,7 +166,7 @@ def process_section(section: dict):
 
 
 def create_standard_slide(
-    title: str, sections: list, *, background_color: str, header, footer
+    title: str, sections: list, *, header, footer, background_color: str = "white", color: str = "black"
 ):
     if len(sections) == 0:
         raise ValueError("Standard slide must have at least one section.")
@@ -223,62 +187,59 @@ def create_standard_slide(
     else:
         raise ValueError("Slides with more than two sections are not supported.")
     return fps.Slide(
-        title=fps.SlideText(text=title or "", font_size=50, font_family="SANS-SERIF"),
+        title=fps.SlideText(text=title or "", font_size=50, font_family="SANS-SERIF", color=color),
         content=content,
         header=header,
         footer=footer,
+        background_color=background_color
+    )
+
+
+def create_title_slide(
+    title: str, section: dict, *, background_color: str = "white", color: str = "black"
+):
+    metadata = section.get("metadata", {})
+    subtitle = metadata.get("subtitle", "")
+    author = metadata.get("author", "")
+
+    return fps.TitleSlide(
+        title=fps.SlideText(
+            text=title,
+            font_size=80,
+            font_family="SANS-SERIF",
+            color="white",
+        ),
+        subtitle=(
+            fps.SlideText(
+                text=subtitle,
+                font_size=40,
+                font_family="SANS-SERIF",
+                color="white",
+            )
+            if subtitle
+            else None
+        ),
+        author=(
+            fps.SlideText(
+                text=author,
+                font_size=30,
+                font_family="SANS-SERIF",
+                color="white",
+            )
+            if author
+            else None
+        ),
         background_color=background_color,
     )
 
 
-def create_slide(
-    slide_data,
-    *,
-    title_slide_background_color,
-    standard_slide_background_color,
-    header,
-    footer,
-):
-    title = slide_data.get("title", "")
-    slide_type = slide_data.get("slide-type", "standard")
-    sections = slide_data.get("sections", [])
-    print(
-        f"Creating slide: title='{title}', type='{slide_type}', Number of sections={len(sections)}"
-    )
-    if slide_type == "title":
-        if len(sections) != 1:
-            raise ValueError("Title slide must have exactly one section.")
-        return create_title_slide(
-            title=title,
-            section=sections[0],
-            background_color=title_slide_background_color,
-        )
-    else:
-        return create_standard_slide(
-            title=title,
-            sections=sections,
-            background_color=standard_slide_background_color,
-            header=header,
-            footer=footer,
-        )
-
-
-def create_slides_from_markdown(
-    md_content: str,
-    *,
-    title_slide_background_color,
-    standard_slide_background_color,
-    header,
-    footer,
-):
+def create_slides_from_markdown(md_content: str, *, create_slide):
     slide_data_list = parse_slides(md_content)
     slides = [
         create_slide(
-            slide_data,
-            title_slide_background_color=title_slide_background_color,
-            standard_slide_background_color=standard_slide_background_color,
-            header=header,
-            footer=footer,
+            title=slide_data.get("title", ""),
+            slide_type=slide_data.get("slide-type", "standard"),
+            sections=slide_data.get("sections", []),
         )
         for slide_data in slide_data_list
     ]
