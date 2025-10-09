@@ -31,9 +31,6 @@ jobs:
         with:
           python-version: '3.11'
       
-      - name: Pull spurious discovery tests
-        run: ./pull-spurious-discovery-tests.sh
-      
       - name: Install Python dependencies
         run: |
           pip install figpack
