@@ -339,7 +339,7 @@ section-break
 
 tab-label <- Demo Video
 
-<iframe src="./videos/stan-assistant-demo.webm"></iframe>
+<iframe src="https://users.flatironinstitute.org/~magland/screencasts/presentations/ai-agents-for-data-science-how-to-and-should-we/stan-assistant-demo.webm"></iframe>
 
 ---
 
