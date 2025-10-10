@@ -5,23 +5,27 @@
 ## Development
 
 Install dependencies:
+
 ```bash
 pip install figpack numpy pandas matplotlib
 figpack extensions install figpack_slides
 npm install
 ```
 
-Build:
+First build the presentation:
+
 ```bash
 python index.py
 ```
 
-Watch mode (auto-rebuild):
-```bash
-./watch.sh
-```
+Then serve it locally:
 
-Serve locally (in separate terminal):
 ```bash
 npx serve build
+```
+
+Or in watch mode:
+
+```bash
+./dev.sh
 ```

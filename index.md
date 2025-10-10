@@ -8,6 +8,18 @@ author <- Jeremy Magland, Center for Computational Mathematics, Flatiron Institu
 
 ---
 
+# Outline
+
+* What are software agents and AI agents?
+* Why use them? Why be cautious?
+* How to build an AI agent from scratch?
+* Application: Exploring the DANDI Archive
+* What could possibly go wrong?
+* Spurious discovery tests
+* What's next?
+
+---
+
 # What is a Software Agent?
 
 A software agent is a system that can:
@@ -105,7 +117,26 @@ section-break
 
 ---
 
-# How to build an AI Agent?
+# What about ChatGPT?
+
+ChatGPT is a specific implementation of an AI agent from OpenAI.
+
+* Can be used for a wide range of tasks
+* Can be customized with system prompts (custom GPTs)
+* Can use custom tools to an extent (work in progress)
+
+**Limitations**:
+* Does not have access to your local environment
+* Cannot launch code on your computer or the cluster
+* Only so much customization possible
+
+section-break
+
+![ChatGPT](./images/chatgpt.png)
+
+---
+
+# How to build an AI Agent from scratch?
 
 **Key components:**
 * LLM (e.g., GPT-4, Claude)
@@ -118,15 +149,31 @@ section-break
 
 ---
 
-# How to build an AI Agent?
+# How to build an AI Agent from scratch?
 
-Here's a simple example of an AI agent that explores a dataset and generates visualizations.
+### Agent reasoning loop
+1. Make a call to an LLM with a system prompt and user query
+2. Parse LLM responses for tool calls
+3. Execute tool calls (e.g., Python code, shell commands)
+4. Append tool outputs to conversation history and go back to step 1 until done
+
+section-break
+
+![Agent flow diagram](./images/agent-flow-diagram.png)
+
+---
+
+# How to build an AI Agent from scratch?
+
+Here's the system prompt of a simple example of an AI agent that explores a dataset and generates visualizations.
 
 section-break
 
 font <- small
 
-**System prompt:** You are an expert data scientist. Your task is to explore a dataset and generate visualizations. You have access to Python and common data science libraries (pandas, matplotlib, seaborn, etc.). You can also use shell commands to manage files.
+### Sample system prompt
+
+You are an expert data scientist. Your task is to explore a dataset and generate visualizations. You have access to Python and common data science libraries (pandas, matplotlib, seaborn, etc.). You can also use shell commands to manage files.
 
 In your response you can respond with the following tool calls
 
@@ -154,11 +201,11 @@ Do not hallucinate, etc., etc.
 
 ---
 
-# How to build an AI Agent?
+# How to build an AI Agent from scratch?
 
 font <- small
 
-**System prompt**: as in previous slide
+**System prompt**: **As in previous slide**
 
 **User**: Please analyze the dataset `data.csv` and generate visualizations.
 
@@ -173,7 +220,7 @@ summary.to_csv('summary.csv')
 </tool>
 ```
 
-**Tool response**: Executed Python code. No console output.
+**Tool response**: Executed Python code. No console output. *<-- agent must execute code and set the tool response*
 
 **Assistant**: I have loaded the dataset and generated a summary. The summary is saved in `summary.csv`. Next, I will read the summary file.
 
@@ -185,10 +232,6 @@ summary.csv
 
 **Tool response**: (Contents of summary.csv)
 
-section-break
-
-font <- small
-
 **Assistant**: I have read the summary of the dataset. Next, I will generate a plot depicting the distribution of a key variable.
 
 ```xml
@@ -197,6 +240,9 @@ import matplotlib.pyplot as plt
 ...
 plt.savefig('plot.png')
 ```
+
+section-break
+font <- small
 
 Tool response: Executed Python code. No console output.
 
@@ -208,6 +254,8 @@ The analysis is complete. The summary is in `summary.csv` and the plot is in `pl
 </tool>
 ```
 
+![Example Plot](./images/example-plot.png)
+
 ---
 
 # Accessing the LLM
@@ -217,7 +265,7 @@ The analysis is complete. The summary is in `summary.csv` and the plot is in `pl
 * OpenAI API (e.g., GPT-4, GPT-3.5)
 * Anthropic API (e.g., Claude)
 * OpenRouter API (access to many models)
-* Local models (e.g., LLaMA, GPT4All, Mistral)
+* Local models (e.g., LLaMA, Mistral)
 
 API calls typically involve sending a conversation history and receiving a response.
 
@@ -227,7 +275,8 @@ section-break
 
 font <- small
 
-**What does an API call look like?**
+### What does an API call look like?
+
 ```python
 import openai
 
@@ -254,7 +303,7 @@ if tool_calls:
 
 ---
 
-# Minicline
+# Simple implementation of AI agent in Python
 
 Cline is a popular coding companion agent that integrates with VSCode. It works well for software engineering tasks, but is complex and has many dependencies, including VSCode itself.
 
@@ -266,7 +315,25 @@ section-break
 
 ---
 
-# Application: DANDI Archive
+# Application: Stan Assistant
+
+[Stan](https://mc-stan.org/) is a probabilistic programming language for statistical modeling and Bayesian inference.
+
+Stan Assistant is a web-based AI agent that helps users learn about Stan and build models.
+
+Tools available to the agent:
+* Access parts of the [Stan User's Guide](https://mc-stan.org/docs/stan-users-guide/index.html)
+* Embed Stan Playground for interactive coding
+
+(Right now you can't do these things with ChatGPT)
+
+section-break
+
+<iframe src="https://stan-assistant.vercel.app/"></iframe>
+
+---
+
+# DANDI Archive
 
 The DANDI Archive allows publishing and sharing neurophysiology data
 
@@ -289,7 +356,7 @@ Example dataset: Calcium imaging in SMA and M1 of macaques
 * 680 GB
 * Neurodata Without Borders (NWB) format
 
-How does one get started exploring this dataset??
+How does one get started exploring this dataset?
 
 section-break
 
@@ -305,7 +372,7 @@ Example dataset: Calcium imaging in SMA and M1 of macaques
 * 680 GB
 * Neurodata Without Borders (NWB) format
 
-How does one get started exploring this dataset??
+How does one get started exploring this dataset?
 
 section-break
 
@@ -313,9 +380,9 @@ section-break
 
 ---
 
-# Chat with an AI Agent for Exploring Dandiset
+# Application: Dandiset Explorer
 
-On the right is an example of using an AI agent to explore a DANDI dataset.
+Here's an example of using an AI agent to explore a DANDI dataset.
 
 The chat agent is equipped with the following tools:
 * DANDI API access for retrieving metadata and file listings

@@ -1,51 +1,14 @@
-import figpack_slides.views as fps
-from figpack_slides_helpers import create_slides_from_markdown, create_title_slide, create_standard_slide
-
-
-ccm_color = "#F0751C"
-header = fps.SlideHeader(height=10, background_color=ccm_color)
-footer = fps.SlideFooter(height=10, background_color=ccm_color)
-
-
-def create_slide(
-    *,
-    title: str,
-    slide_type: str,
-    sections: list
-):
-    print(
-        f"Creating slide: title='{title}', type='{slide_type}', Number of sections={len(sections)}"
-    )
-    if slide_type == "title":
-        if len(sections) != 1:
-            raise ValueError("Title slide must have exactly one section.")
-        return create_title_slide(
-            title=title,
-            section=sections[0],
-            background_color=ccm_color,
-            color="white",
-        )
-    else:
-        return create_standard_slide(
-            title=title,
-            sections=sections,
-            background_color="white",
-            color="black",
-            header=header,
-            footer=footer,
-        )
+import figpack_slides as fps
+from create_slide import create_slide
 
 
 def main():
     with open("index.md", "r") as f:
         md_content = f.read()
 
-    slides = create_slides_from_markdown(
-        md_content,
-        create_slide=create_slide
-    )
+    slides = fps.parse_markdown_to_slides(md_content, create_slide=create_slide)
 
-    slides.save("build", title="AI Agents for Data Science")
+    slides.save("build", title=slides.slides[0].title.text)
 
 
 if __name__ == "__main__":
