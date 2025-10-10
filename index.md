@@ -10,10 +10,13 @@ author <- Jeremy Magland, Center for Computational Mathematics, Flatiron Institu
 
 # Outline
 
-* What are software agents and AI agents?
+font <- large
+
+* What are AI agents?
 * Why use them? Why be cautious?
 * How to build an AI agent from scratch?
-* Application: Exploring the DANDI Archive
+* Application: Stan Assistant
+* Application: Exploring the DANDI Archive (public neurophysiology data)
 * What could possibly go wrong?
 * Spurious discovery tests
 * What's next?
@@ -40,7 +43,7 @@ section-break
 
 # What is an AI Agent?
 
-An AI agent is a software agent that uses artificial intelligence techniques to perform its tasks.
+An AI agent is a software agent that uses artificial intelligence
 
 **Example: Self-driving car**
 * Perceives environment using sensors (cameras, LIDAR, etc.)
@@ -102,14 +105,14 @@ section-break
 
 * Reliability concerns
     - LLMs can produce incorrect or misleading results
-    - Lack of transparency in decision-making
+    - Who is ultimately responsible for the analysis?
 * Ethical considerations
     - Biases in training data
     - Plagiarism and intellectual property issues
     - Environmental impact
 * Over-reliance on automation
     - Risk of losing critical thinking skills
-    - Importance of human oversight
+    - Implications for future generations of scientists
 
 section-break
 
@@ -127,8 +130,8 @@ ChatGPT is a specific implementation of an AI agent from OpenAI.
 
 **Limitations**:
 * Does not have access to your local environment
-* Cannot launch code on your computer or the cluster
-* Only so much customization possible
+* Cannot launch code on your computer
+* Limited customization possible - in tool usage, integration with other systems, output formatting, etc.
 
 section-break
 
@@ -137,6 +140,8 @@ section-break
 ---
 
 # How to build an AI Agent from scratch?
+
+font <- large
 
 **Key components:**
 * LLM (e.g., GPT-4, Claude)
@@ -152,12 +157,15 @@ section-break
 # How to build an AI Agent from scratch?
 
 ### Agent reasoning loop
-1. Make a call to an LLM with a system prompt and user query
-2. Parse LLM responses for tool calls
-3. Execute tool calls (e.g., Python code, shell commands)
-4. Append tool outputs to conversation history and go back to step 1 until done
+
+1. Send system prompt and query to LLM
+2. Parse response for tool calls
+3. Run tools (Python, shell, etc.)
+4. Add outputs to history; repeat until complete
 
 section-break
+
+![alt text](image.png)
 
 ![Agent flow diagram](./images/agent-flow-diagram.png)
 
@@ -165,7 +173,9 @@ section-break
 
 # How to build an AI Agent from scratch?
 
-Here's the system prompt of a simple example of an AI agent that explores a dataset and generates visualizations.
+font <- large
+
+Here's the system prompt of a sample AI agent that explores a dataset and generates visualizations.
 
 section-break
 
@@ -201,7 +211,7 @@ Do not hallucinate, etc., etc.
 
 ---
 
-# How to build an AI Agent from scratch?
+# Sample Conversation (Agent Reasoning Loop)
 
 font <- small
 
@@ -303,7 +313,7 @@ if tool_calls:
 
 ---
 
-# Simple implementation of AI agent in Python
+# Minicline: Implementation of AI agent in Python
 
 Cline is a popular coding companion agent that integrates with VSCode. It works well for software engineering tasks, but is complex and has many dependencies, including VSCode itself.
 
@@ -327,6 +337,8 @@ Tools available to the agent:
 * Access parts of the [Stan User's Guide](https://mc-stan.org/docs/stan-users-guide/index.html)
 * Embed Stan Playground for interactive coding
 
+Strict instructions to avoid hallucinations
+
 (Right now you can't do these things with ChatGPT)
 
 section-break
@@ -341,9 +353,17 @@ tab-label <- Demo Video
 
 <iframe src="https://users.flatironinstitute.org/~magland/screencasts/presentations/ai-agents-for-data-science-how-to-and-should-we/stan-assistant-demo.webm"></iframe>
 
+section-break
+
+tab-label <- System Prompt
+
+./markdown_files/stan-assistant-system-prompt.md
+
 ---
 
 # DANDI Archive
+
+slide-type <- tabs-on-right
 
 The DANDI Archive allows publishing and sharing neurophysiology data
 
@@ -351,48 +371,35 @@ The DANDI Archive allows publishing and sharing neurophysiology data
 * Supports reproducible research
 * Provides rich metadata and search capabilities
 
+The tabs to the right show screenshots of the DANDI Archive website and an example dataset.
+
+Dandiset 001174 has 45 Files, 680 GB, Neurodata Without Borders (NWB) format
+
+**How does one get started exploring this dataset?**
+
 section-break
 
+tab-label <- DANDI Archive
 
 ![DANDI Archive](./images/dandi-archive.png)
 
----
-
-# Dandiset 001174
-
-Example dataset: Calcium imaging in SMA and M1 of macaques
-
-* 45 Files
-* 680 GB
-* Neurodata Without Borders (NWB) format
-
-How does one get started exploring this dataset?
-
 section-break
+
+tab-label <- Example Dataset
 
 ![Dandiset 001174](./images/dandiset-001174.png)
 
----
-
-# Dandiset 001174
-
-Example dataset: Calcium imaging in SMA and M1 of macaques
-
-* 45 Files
-* 680 GB
-* Neurodata Without Borders (NWB) format
-
-How does one get started exploring this dataset?
-
 section-break
 
-![Dandiset 001174 Files](./images//dandiset-001174-files.png)
+tab-label <- Example Dataset Files
+
+![Dandiset 001174 Files](./images/dandiset-001174-files.png)
 
 ---
 
-# Application: Dandiset Explorer
+# Dandiset Explorer
 
-Here's an example of using an AI agent to explore a DANDI dataset.
+AI Agent helps scientists get started exploring a dataset
 
 The chat agent is equipped with the following tools:
 * DANDI API access for retrieving metadata and file listings

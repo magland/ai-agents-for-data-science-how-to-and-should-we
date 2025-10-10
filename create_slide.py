@@ -19,9 +19,13 @@ footer = fpsv.SlideFooter(height=10, background_color=ccm_color)
 
 def get_standard_slide_content_font_size(metadata: dict) -> int:
     font = metadata.get("font", "normal")
-    font_size = 28
+    default_font_size = 28
     if font == "small":
         font_size = 16
+    elif font == "large":
+        font_size = 40
+    else:
+        font_size = default_font_size
     return font_size
 
 
