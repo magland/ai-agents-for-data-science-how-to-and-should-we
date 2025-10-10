@@ -22,6 +22,8 @@ def get_standard_slide_content_font_size(metadata: dict) -> int:
     default_font_size = 28
     if font == "small":
         font_size = 16
+    elif font == "medium-small":
+        font_size = 20
     elif font == "large":
         font_size = 40
     else:

@@ -14,7 +14,7 @@ font <- large
 
 * What are AI agents?
 * Why use them? Why be cautious?
-* How to build an AI agent from scratch?
+* How to build an AI agent?
 * Application: Stan Assistant
 * Application: Exploring the DANDI Archive (public neurophysiology data)
 * What could possibly go wrong?
@@ -139,13 +139,13 @@ section-break
 
 ---
 
-# How to build an AI Agent from scratch?
+# How to build an AI Agent?
 
 font <- large
 
 **Key components:**
 * LLM (e.g., GPT-4, Claude)
-* Toolset (e.g., Python, R, SQL, shell commands)
+* Toolset (e.g., Python, shell commands, APIs)
 * Reasoning framework
 
 section-break
@@ -154,7 +154,7 @@ section-break
 
 ---
 
-# How to build an AI Agent from scratch?
+# How to build an AI Agent?
 
 ### Agent reasoning loop
 
@@ -171,7 +171,7 @@ section-break
 
 ---
 
-# How to build an AI Agent from scratch?
+# How to build an AI Agent?
 
 font <- large
 
@@ -179,10 +179,9 @@ Here's the system prompt of a sample AI agent that explores a dataset and genera
 
 section-break
 
-font <- small
+font <- medium-small
 
-### Sample system prompt
-
+**Sample system prompt**:
 You are an expert data scientist. Your task is to explore a dataset and generate visualizations. You have access to Python and common data science libraries (pandas, matplotlib, seaborn, etc.). You can also use shell commands to manage files.
 
 In your response you can respond with the following tool calls
@@ -270,6 +269,8 @@ The analysis is complete. The summary is in `summary.csv` and the plot is in `pl
 
 # Accessing the LLM
 
+slide-type <- tabs-on-right
+
 **Options for accessing LLMs:**
 
 * OpenAI API (e.g., GPT-4, GPT-3.5)
@@ -286,6 +287,8 @@ section-break
 font <- small
 
 ### What does an API call look like?
+
+tab-label <- OpenAI API
 
 ```python
 import openai
@@ -310,6 +313,12 @@ if tool_calls:
         # Execute the tool call
         print(f"Executing tool: {tool_name} with args: {tool_args}")
 ```
+
+section-break
+
+tab-label <- OpenRouter Models
+
+./markdown_files/snapshot-table-of-openrouter-models.md
 
 ---
 
@@ -399,9 +408,9 @@ tab-label <- Example Dataset Files
 
 # Dandiset Explorer
 
-AI Agent helps scientists get started exploring a dataset
+An AI Agent that helps scientists get started exploring a dataset
 
-The chat agent is equipped with the following tools:
+Equipped with the following tools:
 * DANDI API access for retrieving metadata and file listings
 * Python execution environment with common data science libraries
 * Specialized usage information for NWB files
@@ -488,3 +497,7 @@ section-break
 * Satrajit Ghosh - MIT, Harvard Medical School
 * Yaroslav Halchenko - Dartmouth College
 * Benjamin Dichter - CatalystNeuro
+
+**Stan Playground Team**:
+* Brian Ward - Flatiron Institute
+* Jeff Soules - Flatiron Institute
