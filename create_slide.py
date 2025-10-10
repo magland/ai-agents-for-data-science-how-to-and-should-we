@@ -163,6 +163,10 @@ def create_title_slide(
 def process_section(section: fps.ParsedSlideSection):
     content = section.content.strip()
     metadata = section.metadata
+
+    if metadata.get("figpack-view-example") == "example-1":
+        return figpack_view_example_1()
+
     if content.startswith("<iframe") and content.endswith("</iframe>"):
         # This is an iframe tag - extract the URL and create an Iframe view
         # Extract the URL from the src attribute
@@ -185,6 +189,9 @@ def process_section(section: fps.ParsedSlideSection):
         try:
             with open(md_file_path, "r") as f:
                 md_content = f.read()
+            
+            if metadata.get('markdown-as-text') == 'true':
+                md_content = f"````\n{md_content}\n````"  # Using 4 backticks to allow including triple backticks in content
 
             # Embed images as base64
             md_content_with_images = fps.embed_images_as_base64(md_content, base_dir)
@@ -204,3 +211,25 @@ def process_section(section: fps.ParsedSlideSection):
     content_with_images = fps.embed_images_as_base64(content, base_dir="./")
     font_size = get_standard_slide_content_font_size(metadata)
     return fpv.Markdown(content_with_images, font_size=font_size)
+
+
+def figpack_view_example_1():
+    import numpy as np
+    import figpack.views as vv
+
+    # Create a simple timeseries
+    graph = vv.TimeseriesGraph(y_label="Amplitude")
+
+    # Generate data
+    t = np.linspace(0, 10, 500)
+    y = np.sin(2 * np.pi * t) * np.exp(-t / 5)
+
+    # Add line series
+    graph.add_line_series(
+        name="Damped Sine",
+        t=t.astype(np.float32),
+        y=y.astype(np.float32),
+        color="blue"
+    )
+
+    return graph

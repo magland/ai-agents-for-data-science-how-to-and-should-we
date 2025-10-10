@@ -2,8 +2,8 @@
   "watch": [
     "index.md",
     "index.py",
-    "figpack_helpers/",
-    "spurious-discovery-tests/"
+    "markdown_files/",
+    "images/"
   ],
   "ignore": [
     "build/",
