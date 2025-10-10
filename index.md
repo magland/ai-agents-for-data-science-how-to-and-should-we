@@ -317,6 +317,8 @@ section-break
 
 # Application: Stan Assistant
 
+slide-type <- tabs-on-right
+
 [Stan](https://mc-stan.org/) is a probabilistic programming language for statistical modeling and Bayesian inference.
 
 Stan Assistant is a web-based AI agent that helps users learn about Stan and build models.
@@ -329,7 +331,15 @@ Tools available to the agent:
 
 section-break
 
-<iframe src="https://stan-assistant.vercel.app/"></iframe>
+tab-label <- Live Chat
+
+<iframe src="https://stan-assistant.vercel.app"></iframe>
+
+section-break
+
+tab-label <- Demo Video
+
+<iframe src="./videos/stan-assistant-demo.webm"></iframe>
 
 ---
 

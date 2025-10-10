@@ -36,8 +36,11 @@ def create_slide(
     )
     if slide_type == "title":
         return create_title_slide(parsed_slide)
+    elif slide_type == "tabs-on-right":
+        return create_tabs_on_right_slide(parsed_slide)
     else:
         return create_standard_slide(parsed_slide)
+        
 
 def create_standard_slide(
     parsed_slide: fps.ParsedSlide
@@ -62,6 +65,45 @@ def create_standard_slide(
         content = fpv.Box(direction="horizontal", items=items)
     else:
         raise ValueError("Slides with more than two sections are not supported.")
+    return fpsv.Slide(
+        title=fpsv.SlideText(text=title or "", font_size=standard_slide_title_font_size, font_family="SANS-SERIF", color=standard_slide_text_color),
+        content=content,
+        header=header,
+        footer=footer,
+        background_color=standard_slide_background_color,
+    )
+
+def create_tabs_on_right_slide(
+    parsed_slide: fps.ParsedSlide
+):
+    title = parsed_slide.title
+    sections = parsed_slide.sections
+    if len(sections) < 2:
+        raise ValueError("Tabs-on-right slide must have at least two sections.")
+    
+    # First section goes on the left
+    left_content = process_section(sections[0])
+    
+    # Remaining sections become tabs on the right
+    tabs: List[fpv.TabLayoutItem] = []
+    for i, section in enumerate(sections[1:], start=1):
+        tab_label = section.metadata.get("tab-label", f"Tab {i}")
+        tabs.append(
+            fpv.TabLayoutItem(
+                label=tab_label,
+                view=process_section(section),
+            )
+        )
+    
+    # Create horizontal layout with left content and tabs on right
+    content = fpv.Box(
+        direction="horizontal",
+        items=[
+            fpv.LayoutItem(view=left_content, stretch=1),
+            fpv.LayoutItem(view=fpv.TabLayout(items=tabs), stretch=1),
+        ]
+    )
+    
     return fpsv.Slide(
         title=fpsv.SlideText(text=title or "", font_size=standard_slide_title_font_size, font_family="SANS-SERIF", color=standard_slide_text_color),
         content=content,
@@ -113,7 +155,7 @@ def create_title_slide(
     )
 
 def process_section(section: fps.ParsedSlideSection):
-    content = section.content
+    content = section.content.strip()
     metadata = section.metadata
     if content.startswith("<iframe") and content.endswith("</iframe>"):
         # This is an iframe tag - extract the URL and create an Iframe view
