@@ -2,6 +2,7 @@
   "watch": [
     "index.md",
     "index.py",
+    "create_slide.py",
     "markdown_files/",
     "images/"
   ],

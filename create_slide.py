@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import os
 import figpack_slides.views as fpsv
 import figpack.views as fpv
@@ -125,8 +125,7 @@ def create_title_slide(
     title = parsed_slide.title
     if len(parsed_slide.sections) != 1:
         raise ValueError("Title slide must have exactly one section.")
-    section = parsed_slide.sections[0]
-    metadata = section.metadata
+    metadata = parsed_slide.metadata
     subtitle = metadata.get("subtitle", "")
     author = metadata.get("author", "")
 
@@ -177,7 +176,7 @@ def process_section(section: fps.ParsedSlideSection):
             url = match.group(1)
             return fpv.Iframe(url=url)
         else:
-            return fpv.Markdown(
+            return fpsv.Markdown(
                 "Error: Invalid iframe tag - no src attribute found", font_size=28
             )
 
@@ -196,21 +195,31 @@ def process_section(section: fps.ParsedSlideSection):
             # Embed images as base64
             md_content_with_images = fps.embed_images_as_base64(md_content, base_dir)
 
-            return fpv.Markdown(md_content_with_images, font_size=standard_slide_external_markdown_font_size)
+            return fpsv.Markdown(md_content_with_images, font_size=standard_slide_external_markdown_font_size)
         except FileNotFoundError:
-            return fpv.Markdown(f"Error: File not found: {md_file_path}", font_size=28)
+            return fpsv.Markdown(f"Error: File not found: {md_file_path}", font_size=28)
         except Exception as e:
-            return fpv.Markdown(f"Error loading markdown file: {str(e)}", font_size=28)
+            return fpsv.Markdown(f"Error loading markdown file: {str(e)}", font_size=28)
 
-    if content.startswith("![") and "](./" in content and content.endswith(")"):
+    single_line = '\n' not in content
+    if single_line and content.startswith("![") and "](./" in content and content.endswith(")"):
         # This is an image path - extract the path and create an Image view
         path = content[content.find("](./") + 2 : -1]
         return fpv.Image(path)
+    
+    elif single_line and content.startswith("![") and "](https://" in content and content.endswith(")"):
+        # This is an image URL - extract the URL and create an Image view
+        image_url = content[content.find("](") + 2 : -1]
+        image_bytes = fetch_image_from_url(image_url)
+        if image_bytes is not None:
+            return fpv.Image(image_bytes)
+        else:
+            raise ValueError(f"Could not fetch image from URL: {image_url}")
 
     # Regular markdown content - check if it contains images and embed them
     content_with_images = fps.embed_images_as_base64(content, base_dir="./")
     font_size = get_standard_slide_content_font_size(metadata)
-    return fpv.Markdown(content_with_images, font_size=font_size)
+    return fpsv.Markdown(content_with_images, font_size=font_size)
 
 
 def figpack_view_example_1():
@@ -233,3 +242,15 @@ def figpack_view_example_1():
     )
 
     return graph
+
+
+def fetch_image_from_url(url: str) -> Optional[bytes]:
+    import requests
+
+    try:
+        response = requests.get(url, headers={"User-Agent": "figpack-slides/1.0"})
+        response.raise_for_status()
+        return response.content
+    except Exception as e:
+        print(f"Error fetching image from URL {url}: {str(e)}")
+        return None
