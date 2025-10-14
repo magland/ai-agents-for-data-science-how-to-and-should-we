@@ -8,22 +8,22 @@ author: Jeremy Magland, Center for Computational Mathematics, Flatiron Institute
 
 ---
 
-# Outline
+# Outline and Spoilers
 
 ```yaml section-metadata
 font: large
 ```
 * What are AI agents?
-* Why use them? Why be cautious?
-* How to build an AI agent?
-* Application: Tool Assistant
-    - Getting started using a software tool
-* Application: Dataset Assistant
-    - Getting started exploring a dataset
-* Deeper Analysis / Hypothesis Testing
-* What could possibly go wrong?
-* Spurious discovery tests
-* What's next?
+* How do they work? How to build one?
+* **Spoiler 1**: Great for certain tasks
+    - Assisting with software tools
+    - Exploring datasets and generating visualizations
+* **Spoiler 2**: They struggle with *real* data analysis
+    - Spurious discoveries
+    - Wrong conclusions
+* Caveats
+    - AI is a fast-moving field
+    - This is my personal perspective based on the fields I have experience in
 
 * * *
 
@@ -39,9 +39,9 @@ font: large
 # What is a Software Agent?
 
 A software agent is a system that can:
-* Perceive environment
-* Reason about goals
-* Act autonomously (or semi-autonomously)
+* **Perceive** its environment
+* **Reason** about goals
+* **Act** autonomously (or semi-autonomously)
 
 **Example: Thermostat**
 * Perceives temperature
@@ -56,12 +56,12 @@ A software agent is a system that can:
 
 # What is an AI Agent?
 
-An AI agent is a software agent that uses artificial intelligence
+An AI agent is a software agent that uses artificial intelligence to perceive, reason, and act.
 
 **Example: Self-driving car**
-* Perceives environment using sensors (cameras, LIDAR, etc.)
-* Has goals (reach destination safely and efficiently)
-* Acts by controlling the vehicle (steering, acceleration, braking)
+* Perceives the world (cameras, LIDAR, etc.)
+* Plans a safe and efficient route
+* Acts by steering, accelerating, braking, etc.
 
 * * *
 
@@ -71,20 +71,21 @@ An AI agent is a software agent that uses artificial intelligence
 
 # Data Exploration Agent
 
+An **AI agent for data science** that explores datasets and generates insights.
+
 **Example: Visualizing a dataset**
-* Perceives: Reads a dataset (e.g., CSV file)
-* Has goals: Generate informative visualizations
-* Acts: Create and execute scripts to analyze the data and produce plots
+* **Perceives** a dataset (e.g., CSV file)
+* **Aims** to find patterns and relationships
+* **Acts** by generating and running analysis code
 
 **Reasoning loop:**
-1. Load and summarize the dataset
-2. Identify interesting features (e.g., distributions, correlations)
-3. Decide which visualizations to create
-4. Generate and execute code to create plots
-5. Review results and iterate if necessary
-6. Produce a final report
+* Summarize the data
+* Find interesting features
+* Create visualizations
+* Iterate as needed
+* Produce a final report
 
-**Final output**: An exploratory report showing meaningful patterns discovered automatically
+**Output**: An exploratory report with plots, summaries, and insights
 
 * * *
 
@@ -94,36 +95,40 @@ An AI agent is a software agent that uses artificial intelligence
 
 # Hypothesis Testing Agent
 
-**Hypothesis**: Higher synchrony between frontal and parietal brain regions predicts better attention performance.
+(Pushing beyond data exploration)
 
-**Dataset**: Thousands of neural recordings across many subjects. Millions of time points, dozens of brain regions.
+**Goal**: Test a scientific hypothesis, not just finding patterns
 
-**Agent reasoning loop**:
-Totally open-ended, but would involve:
-* Reading relevant literature
-* Loading and exploring individual datasets
-* Formulating and testing hypotheses
-* Generating visualizations
-* Repeating as needed
-* Producing a final report
+**Example hypothesis**: Higher synchrony between brain regions predicts better attention performance
 
+**Example dataset:**
+* Thousands of neural recordings across many subjects
+* Millions of time points
+* Dozens of brain regions
 
+**Agent's open-ended reasoning:**
+
+1. Read background literature
+2. Load and explore data
+3. Formulate and test hypotheses
+4. Generate visualizations and statistics
+5. Repeat as needed
+6. Produce a final report
 
 ---
 
-# Why use them?
+# Why use AI agents?
 
-### Potential benefits
+```yaml section-metadata
+font: large
+```
 
-* Productivity
-    - Automate repetitive tasks
-    - Accelerate analysis
-* Discovery
-    - Uncover hidden patterns
-    - Generate hypotheses that a human might miss
-* Accessibility
-    - Make data science accessible to non-experts
-    - Lower the barrier to entry
+**Potential benefits:**
+* Productivity: Automate repetitive tasks, accelerate analysis
+* Discovery: Reveal hidden patterns, suggest new hypotheses
+* Accessibility: Lower barrier for non-experts
+
+Overall, they can make science faster, more open, and sometimes more creative.
 
 * * *
 
@@ -133,18 +138,17 @@ Totally open-ended, but would involve:
 
 # Why be cautious?
 
-### Potential risks
+```yaml section-metadata
+font: large
+```
 
-* Reliability concerns
-    - LLMs can produce incorrect or misleading results
-    - Who is ultimately responsible for the analysis?
-* Ethical considerations
-    - Biases in training data
-    - Plagiarism and intellectual property issues
-    - Environmental impact
-* Over-reliance on automation
-    - Risk of losing critical thinking skills
-    - Implications for future generations of scientists
+**Key risks:**
+* Reliability: Confident but wrong results
+* Ethics: Bias, plagiarism, environmental cost
+* Over-riliance: Erosion of critical thinking, scientific expertise
+* Accountability: Who is responsible when AI gets it wrong?
+
+What aspects of data science cannot / should not be delegated to AI? What is "human judgment"?
 
 * * *
 
@@ -152,22 +156,25 @@ Totally open-ended, but would involve:
 
 ---
 
-# ChatGPT
+# Why build our own AI agents?
 
-ChatGPT is a specific implementation of an AI agent from OpenAI.
+```yaml section-metadata
+font: large
+```
 
-* Can be used for a wide range of tasks
-* Can be customized with system prompts (custom GPTs)
-* Can use custom tools to an extent (work in progress)
+**General commercial models (ChatGPT, Calude, Gemini)**:
+* Broad, powerful, but opaque
+* Limited access to tools and data
+* Can't run code on our own compute resources / environments
+* Difficult to integrate into custom workflows
 
-**Limitations**:
-* Does not have access to your local environment
-* Cannot launch code on your computer
-* Limited customization possible - in tool usage, integration with other systems, output formatting, etc.
+**Custom agents**:
+* Transparent
+* Tuned for specific tasks
+* Access to local data and compute
+* Open source
 
-* * *
-
-![ChatGPT](./images/chatgpt.png)
+(Note that custom open source models will often use the closed commercial LLMs as components)
 
 ---
 
@@ -178,9 +185,9 @@ font: large
 ```
 
 **Key components:**
-* LLM (e.g., GPT-4, Claude)
+* LLM (e.g., GPT-4, Claude, Open Source)
 * Toolset (e.g., Python, shell commands, APIs)
-* Reasoning framework
+* Reasoning framework (loop that connects them)
 
 * * *
 
@@ -188,14 +195,18 @@ font: large
 
 ---
 
-# How to build an AI Agent?
+# How a homemade AI agent "thinks"
 
-### Agent reasoning loop
+```yaml section-metadata
+font: large
+```
 
-1. Send system prompt and query to LLM
-2. Parse response for tool calls
-3. Run tools (Python, shell, etc.)
-4. Add outputs to history; repeat until complete
+1. Receive a goal or question
+2. Ask the LLM for next action
+3. Parse the response for tool calls
+4. Execute tools (locally) and collect outputs
+5. Append outputs to conversation history and go back to step 2
+6. Stop when the LLM indicates the task is complete
 
 * * *
 
@@ -203,13 +214,13 @@ font: large
 
 ---
 
-# How to build an AI Agent?
+# Inside the agent: The system prompt
 
 ```yaml section-metadata
 font: large
 ```
 
-Here's the system prompt of a sample AI agent that explores a dataset and generates visualizations.
+The agent starts with a **system prompt** that defines its role and capabilities.
 
 * * *
 
@@ -246,7 +257,7 @@ Do not hallucinate, etc., etc.
 
 ---
 
-# Sample Conversation (Agent Reasoning Loop)
+# Example: Agent Reasoning in Action
 
 ```yaml section-metadata
 font: small
@@ -256,7 +267,7 @@ font: small
 
 **User**: Please analyze the dataset `data.csv` and generate visualizations.
 
-**Assistant**: Sure! I will start by loading and summarizing the dataset.
+**Agent**: Sure! I will start by loading and summarizing the dataset.
 
 ```xml
 <tool name="execute_python">
@@ -267,9 +278,9 @@ summary.to_csv('summary.csv')
 </tool>
 ```
 
-**Tool response**: Executed Python code. No console output. *<-- agent must execute code and set the tool response*
+**Tool response**: Executed Python code. No console output.
 
-**Assistant**: I have loaded the dataset and generated a summary. The summary is saved in `summary.csv`. Next, I will read the summary file.
+**Agent**: I've generated a summary. I will now read it.
 
 ```xml
 <tool name="read_file">
@@ -279,7 +290,7 @@ summary.csv
 
 **Tool response**: (Contents of summary.csv)
 
-**Assistant**: I have read the summary of the dataset. Next, I will generate a plot depicting the distribution of a key variable.
+**Agent**: I have read the summary of the dataset. Next, I will generate a plot depicting the distribution of a key variable.
 
 ```xml
 <tool name="execute_python">
@@ -314,16 +325,16 @@ The analysis is complete. The summary is in `summary.csv` and the plot is in `pl
 slide-type: tabs-on-right
 ```
 
-**Options for accessing LLMs:**
+```yaml section-metadata
+font: large
+```
 
-* OpenAI API (e.g., GPT-4, GPT-3.5)
-* Anthropic API (e.g., Claude)
-* OpenRouter API (access to many models)
-* Local models (e.g., LLaMA, Mistral)
+**How the agent talks to the model:**
+* Send conversation history to API call (e.g, OpenAI, Anthropic)
+* Receive text and tool calls as response
+* Loop until task is complete
 
-API calls typically involve sending a conversation history and receiving a response.
-
-To implement an agent, you would loop over this process, feeding tool outputs back into the LLM as new messages.
+Full Python implementation: Minicline (see tab on right)
 
 * * *
 
@@ -369,37 +380,32 @@ tab-label: OpenRouter Models
 
 ./markdown_files/snapshot-table-of-openrouter-models.md
 
----
-
-# Minicline: Implementation of AI agent in Python
-
-Cline is a popular coding companion agent that integrates with VSCode. It works well for software engineering tasks, but is complex and has many dependencies, including VSCode itself.
-
-Minicline is a simplified Python and command-line interface geared toward data science tasks.
-
 * * *
+
+```yaml section-metadata
+tab-label: Minicline
+```
 
 <iframe src="https://magland.github.io/minicline/"></iframe>
 
 ---
 
-# Application: Stan Assistant
+# Application: Tool Assistant
 
 ```yaml slide-metadata
 slide-type: tabs-on-right
 ```
 
-[Stan](https://mc-stan.org/) is a probabilistic programming language for statistical modeling and Bayesian inference.
+An AI agent that helps users get started using a software tool.
 
-Stan Assistant is a web-based AI agent that helps users learn about Stan and build models.
+For example, **Stan Assistant** is a web-based AI agent that helps users learn about [Stan](https://mc-stan.org/) (probabilistic programming language) and build models.
 
 Tools available to the agent:
 * Access parts of the [Stan User's Guide](https://mc-stan.org/docs/stan-users-guide/index.html)
 * Embed Stan Playground for interactive coding
+* Apply strict anti-hallucination rules
 
-Strict instructions to avoid hallucinations
-
-(Right now you can't do these things with ChatGPT)
+Outperforms general chat agents (e.g., ChatGPT) on a focused scientific task.
 
 * * *
 
@@ -427,23 +433,23 @@ tab-label: System Prompt
 
 ---
 
-# DANDI Archive
+# Application: Dataset Assistant (Dandiset Explorer)
 
 ```yaml slide-metadata
 slide-type: tabs-on-right
 ```
 
-The DANDI Archive allows publishing and sharing neurophysiology data
+The DANDI Archive is a platform for sharing large-scale neurophysiology datasets.
 
-* Hosts large-scale datasets
-* Supports reproducible research
-* Provides rich metadata and search capabilities
+**It enables**
+* Open, reproducible research
+* Standardized data (NWB format)
+* Rich metadata and search
 
-The tabs to the right show screenshots of the DANDI Archive website and an example dataset.
+**Example: Dandiset 001174**
+* 45 files, 680 GB, NWB format
 
-Dandiset 001174 has 45 Files, 680 GB, Neurodata Without Borders (NWB) format
-
-**How does one get started exploring this dataset?**
+**How can a scientist start exploring a dataset this large and complex?**
 
 * * *
 
@@ -471,16 +477,21 @@ tab-label: Example Dataset Files
 
 ---
 
-# Dandiset Explorer
+# Application: Dataset Assistant (Dandiset Explorer)
 
-An AI Agent that helps scientists get started exploring a dataset
+```yaml section-metadata
+font: large
+```
 
-Equipped with the following tools:
-* DANDI API access for retrieving metadata and file listings
-* Python execution environment with common data science libraries
-* Specialized usage information for NWB files
+**Dandiset Explorer** is an AI Agent that helps scientists begin exploring complex datasets.
 
-The agent can view the text and image output of executed code and can iteratively refine its analysis.
+**Tools and capabilities**
+* DANDI API: fetch metadata and file listings
+* Python environment with specialized libraries for NWB
+* Specialized knowledge about NWB files
+* Can view text and image outputs
+* Can iteratively refine analyses
+
 
 * * *
 
@@ -488,28 +499,30 @@ The agent can view the text and image output of executed code and can iterativel
 
 ---
 
+# Pushing the Limits: Hypothesis-Testing Agents
+
+```yaml section-metadata
+font: large
+```
+
+AI agents can explore data, but can they **generate and test scientific hypotheses**?
+
+This is where trust really matters.
+
+---
+
 # What could possibly go wrong?
 
-AI agents can produce impressive results, but how much should we trust them?
+```yaml section-metadata
+font: large
+```
 
-* **False confidence**
-    - Plausible-sounding but incorrect analyses
-    - Fancy charts that look good but are misleading
-* **Finding something when there is nothing**
-    - Risk of false discoveries
-    - May uncover "interesting" patterns that are spurious
-* **Feedback Loops**
-    - Errors can compound over multiple reasoning steps
-    - LLMs may reinforce their own mistakes
+Potential failure modes:
 
-* * *
-
-* **Lack of Domain-specific Knowledge**
-    - May miss important context or nuances
-    - Can misinterpret specialized data or terminology
-* **Who is Responsible?**
-    - Accountability for errors or misinterpretations
-    - Who's fault is it if the AI gets it wrong?
+* **False confidence**: plausible but wrong results
+* **Spurious patterns**: seeing structure in random data
+* **Compounding errors**: small mistakes amplified by loops
+* **Missing context**: missing domain knowledge/expertise
 
 <div style="text-align: center;">
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Dall-e_3_%28jan_%2724%29_artificial_intelligence_icon.png" alt="AI brain" height="200px"></img>
@@ -517,19 +530,21 @@ AI agents can produce impressive results, but how much should we trust them?
 
 ---
 
-# What I found in my AI exploration of the DANDI Archive
+# What I Found Exploring the DANDI Archive
 
-AI agents did a great job helping me jump into the data.
-* Generated boilerplate code
-* Provided insights on what data are available
-* Good overviews of datasets
+```yaml section-metadata
+font: large
+```
 
-However, when it came to actual data analysis...
-* Produced many impressive-looking visualizations
-* But many incorrect conclusions
-* Many instances of "crappy" science
+AI agents did well at first...
+* Wrote boilerplate code
+* Summarized datasets
+* Identified files of interest
+* Produced attractive and helpful visualizations
 
-The example to the right is a typical case. Dizzying amounts of code. Scroll to the bottom to see the conclusions. Mingled with the correct statements are many incorrect ones.
+But deeper analysis went wrong...
+* A mix of correct and incorrect conclusions
+* Long, impressive notebooks with "crappy" science when you checked the details.
 
 * * *
 
@@ -539,11 +554,18 @@ The example to the right is a typical case. Dizzying amounts of code. Scroll to 
 
 # Spurious Discovery Tests
 
-**Aproach**
 
-* Generated 4 fake datasets with no real underlying signal.
-* Asked AI agents to analyze them.
-* Checked if they correctly found *nothing*.
+```yaml section-metadata
+font: large
+```
+
+**Goal**: Test whether AI agents can **avoid finding patterns that don't exist**.
+
+**Approach**:
+* Created **synthetic datasets** with **no real underlying signal**.
+* Asked multiple AI agents to analyze them.
+* Clearly instructed that if there is no signal, they should conclude that.
+* Evaluated whether they correctly found *nothing*.
 
 https://github.com/magland/spurious-discovery-tests
 
@@ -591,18 +613,16 @@ Dataset: The dataset was generated with no underlying signal. However, there wer
 slide-type: tabs-on-right
 ```
 
-Study relationship between multiple time series variables
+Study: relationship between multiple time series variables
 * 600 time points
 * No underlying correlations between variables
-* However: Temporal autocorrelations present
+* But: strong temporal autocorrelations in each variable
 
-**Passed**: None
+* **Passed**: None
+* **Borderline**: gemini-2.5-flash
+* **Failed**: chatgpt-4o-latest, claude-3.5-sonnet, claude-sonnet-4, deepseek-chat-v3, gemini-2.5-pro, ChatGPT 5 online
 
-**Medium grade**: gemini-2.5-flash
-
-**Failed**: chatgpt-4o-latest, claude-3.5-sonnet, claude-sonnet-4, deepseek-chat-v3, gemini-2.5-pro, ChatGPT 5 online
-
-Look at the lengthy (incorrect) reports in the tabs to the right
+See the lengthy (incorrect) reports in the tabs to the right
 
 * * *
 
@@ -661,17 +681,17 @@ tab-label: ChatGPT 5 online
 slide-type: tabs-on-right
 ```
 
-Studied continuous recordings of neural firing rates from two brain regions
+Study: continuous recordings of neural firing rates from two brain regions
 
 * 6 hours of data, 21600 time points
 * No underlying correlations between regions
-* However: Periods of corrupted data with all zeros
+* But: Periods of corrupted data with all zeros
 
-**Passed**: None
-
-**Medium grade**: None
-
+* **Passed**: None
+* **Borderline**: None
 **Failed**: chatgpt-4o-latest, claude-3.5-sonnet, claude-sonnet-4, deepseek-chat-v3, gemini-2.5-flash, gemini-2.5-pro, ChatGPT 5 online, ChatGPT 4o online
+
+See the lengthy (incorrect) reports in the tabs to the right
 
 * * *
 
@@ -693,27 +713,37 @@ tab-label: claude-sonnet-4
 
 # Results of Spurious Discovery Tests
 
-* Most agents found spurious correlations and patterns (i.e., false discoveries).
-* Highlights a key risk: **AI can confidently produce false science**.
-* Failure on these spurious discovery tests doesn't prove that AI agents cannot produce valid science.
-* However, passing these tests is a necessary (but not sufficient) condition for trusting the results.
-* These results demonstrate that **we must be very cautious about trusting AI-generated analyses**.
+```yaml section-metadata
+font: large
+```
+
+**Overall outcome**:
+* Most agents "discovered" patterns in random data
+* Very few concluded "no effect"
+* Many produced lengthy, confident, but incorrect reports
+
+**Implications**:
+* AI agents can generate **false science with conviction**
+* Passing these tests is the **minimum bar** for scientific reliability
+* Current models **aren't there yet**
 
 ---
 
-# Summary
+# What we learned
 
-**AI Agents for Data Science**
+**AI can be very helpful for a number of data science tasks:**
+* Generating boilerplate code
+* Summarizing datasets
+* Creating visualizations
+* Assisting with software tools
 
-**Opportunities**:
-* Automate and acclerate data analysis
-* Enable new discoveries and insights
-* Lower barriers to working with data
+But they struggle with deeper data analysis.
 
-**Challenges**:
-* Reliability and trustworthiness
-* Ethical and societal implications
-* Risk of over-reliance on automation and bad science practices
+**To move forward, we should**:
+* Benchmark extensively on spurious discovery tests
+* Require transparency and reproducibility
+* Integrate expert human oversight in loop
+* Develop ethical frameworks for accountability and responsible use
 
 * * *
 
