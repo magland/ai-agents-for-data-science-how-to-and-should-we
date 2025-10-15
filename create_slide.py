@@ -26,6 +26,8 @@ def get_standard_slide_content_font_size(metadata: dict) -> int:
         font_size = 20
     elif font == "large":
         font_size = 40
+    elif font == "medium-large":
+        font_size = 32
     else:
         font_size = default_font_size
     return font_size
@@ -247,9 +249,18 @@ def figpack_view_example_1():
 def fetch_image_from_url(url: str) -> Optional[bytes]:
     import requests
 
+    import hashlib
+    hash_of_url = hashlib.md5(url.encode('utf-8')).hexdigest()
+    tmp_path = f"/tmp/figpack_slides_image_{hash_of_url}"
+    if os.path.exists(tmp_path):
+        with open(tmp_path, "rb") as f:
+            return f.read()
+
     try:
         response = requests.get(url, headers={"User-Agent": "figpack-slides/1.0"})
         response.raise_for_status()
+        with open(tmp_path, "wb") as f:
+            f.write(response.content)
         return response.content
     except Exception as e:
         print(f"Error fetching image from URL {url}: {str(e)}")

@@ -508,13 +508,13 @@ font: large
 
 # Application: Generating Introductory Notebooks
 
+```yaml section-metadata
+font: large
+```
+
+* * *
+
 ![dandi-notebooks-overview](./images/dandi-notebooks-overview.png)
-
----
-
-# Application: Generating Introductory Notebooks
-
-![DANDI Notebook](./images/dandi-notebook.png)
 
 ---
 
@@ -526,7 +526,17 @@ font: large
 
 AI agents can explore data, but can they **generate and test scientific hypotheses**?
 
-Spoiler: This is much harder! In the domains I have investigated, current AI agents struggle with:
+This is where trust really matters.
+
+---
+
+# What could possibly go wrong?
+
+```yaml section-metadata
+font: large
+```
+
+Potential failure modes:
 
 * **False confidence**: plausible but wrong results
 * **Spurious patterns**: seeing structure in random data
