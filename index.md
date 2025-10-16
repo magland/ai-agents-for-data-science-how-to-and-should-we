@@ -13,17 +13,20 @@ author: Jeremy Magland, Center for Computational Mathematics, Flatiron Institute
 ```yaml section-metadata
 font: medium-large
 ```
+::: incremental
 * What are AI agents?
 * How do they work? How to build one?
 * **Spoiler 1**: Great for certain tasks
     - Assisting with software tools
     - Exploring datasets and generating visualizations
 * **Spoiler 2**: They struggle with *real* data analysis
+    - When generating hypotheses and testing them
     - Spurious discoveries
     - Wrong conclusions
 * Caveats
-    - AI is a fast-moving field
-    - This is my personal perspective based on the fields I have experience in
+    - AI is obviously a fast-moving field
+    - This is my own perspective based on the domains I have experience with
+:::
 
 * * *
 
@@ -144,13 +147,9 @@ Overall, they can make science faster, more open, and sometimes more creative.
 font: large
 ```
 
-**Key risks:**
-* Reliability: Confident but wrong results
-* Ethics: Bias, plagiarism, environmental cost
-* Over-reliance: Erosion of critical thinking, scientific expertise
-* Accountability: Who is responsible when AI gets it wrong?
+**Key risks:** Will get to this...
 
-What aspects of data science can be delegated to AI? What should be reserved for human judgment?
+What aspects of data science research can be delegated to AI? What should be reserved for human judgment?
 
 * * *
 
@@ -187,9 +186,11 @@ font: large
 ```
 
 **Key components:**
-* LLM (e.g., GPT-4, Claude, Open Source)
+::: incremental
+* Large Language Model (e.g., GPT-4, Claude, Open Source)
 * Toolset (e.g., Python, shell commands, APIs)
 * Reasoning framework: Loop / logic that connects them
+:::
 
 * * *
 
@@ -203,12 +204,14 @@ font: large
 font: large
 ```
 
-1. Receive a goal or question
-2. Ask the LLM for next action
-3. Parse the response for tool calls
-4. Execute tools (locally) and collect outputs
-5. Append outputs to conversation history and go back to step 2
-6. Stop when the LLM indicates the task is complete
+::: incremental
+* Receive a goal or question
+* Ask the LLM for next action
+* Parse the response for tool calls
+* Execute tools (locally) and collect outputs
+* Append outputs to conversation history and go back second step
+* Stop when the LLM indicates the task is complete
+:::
 
 * * *
 
@@ -425,6 +428,14 @@ tab-label: Live Chat
 * * *
 
 ```yaml section-metadata
+tab-label: Saved Chat
+```
+
+<iframe src="https://stan-assistant.vercel.app/chat/st_1760546025795"></iframe>
+
+* * *
+
+```yaml section-metadata
 tab-label: Demo Video
 ```
 
@@ -498,6 +509,8 @@ font: large
 * Specialized knowledge about NWB files
 * Can view text and image outputs
 * Can iteratively refine analyses
+
+**Can connect to a Jupyter Kernel**
 
 
 * * *
