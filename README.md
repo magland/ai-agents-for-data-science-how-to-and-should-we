@@ -9,7 +9,6 @@ Install dependencies:
 ```bash
 pip install figpack numpy pandas matplotlib
 figpack extensions install figpack_slides
-npm install
 ```
 
 First build the presentation:

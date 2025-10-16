@@ -11,7 +11,7 @@ author: Jeremy Magland, Center for Computational Mathematics, Flatiron Institute
 # Outline and Spoilers
 
 ```yaml section-metadata
-font: medium-large
+font-size: medium-large
 ```
 ::: incremental
 * What are AI agents?
@@ -125,7 +125,7 @@ An **AI agent for data science** that explores datasets and generates insights.
 # Why use AI agents?
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 **Potential benefits:**
@@ -144,7 +144,7 @@ Overall, they can make science faster, more open, and sometimes more creative.
 # Why be cautious?
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 **Key risks:** Will get to this...
@@ -160,7 +160,7 @@ What aspects of data science research can be delegated to AI? What should be res
 # Why build our own AI agents?
 
 ```yaml section-metadata
-font: medium-large
+font-size: medium-large
 ```
 
 **General commercial models (ChatGPT, Calude, Gemini)**:
@@ -182,7 +182,7 @@ Note: Custom agents can use commercial models as components.
 # How to build an AI Agent?
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 **Key components:**
@@ -201,7 +201,7 @@ font: large
 # How a homemade AI agent "thinks"
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 ::: incremental
@@ -222,7 +222,7 @@ font: large
 # Inside the agent: The system prompt
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 The agent starts with a **system prompt** that defines its role and capabilities.
@@ -230,7 +230,7 @@ The agent starts with a **system prompt** that defines its role and capabilities
 * * *
 
 ```yaml section-metadata
-font: medium-small
+font-size: medium-small
 ```
 
 **Sample system prompt**:
@@ -269,7 +269,7 @@ Do not hallucinate, etc., etc.
 # Example: Agent Reasoning in Action
 
 ```yaml section-metadata
-font: small
+font-size: small
 ```
 
 **System prompt**: **As in previous slide**
@@ -312,7 +312,7 @@ plt.savefig('plot.png')
 * * *
 
 ```yaml section-metadata
-font: small
+font-size: small
 ```
 
 Tool response: Executed Python code. No console output.
@@ -336,7 +336,7 @@ slide-type: tabs-on-right
 ```
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 **How the agent talks to the model:**
@@ -349,7 +349,7 @@ font: large
 * * *
 
 ```yaml section-metadata
-font: small
+font-size: small
 ```
 
 ### What does an API call look like?
@@ -498,7 +498,7 @@ tab-label: Example Dataset Files
 # Application: Dataset Assistant (Dandiset Explorer)
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 **Dandiset Explorer** is an AI Agent that helps scientists begin exploring complex datasets.
@@ -534,7 +534,7 @@ font: large
 # Pushing the Limits: Hypothesis-Testing Agents
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 AI agents can explore data, but can they **generate and test scientific hypotheses**?
@@ -555,7 +555,7 @@ Spoiler: This is much harder! In the domains I have investigated, current AI age
 # What I Found Exploring the DANDI Archive
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 AI agents did well at first...
@@ -582,7 +582,7 @@ slide-type: tabs-on-right
 
 
 ```yaml section-metadata
-font: medium-large
+font-size: medium-large
 ```
 
 **Goal**: Test whether AI agents can **avoid finding patterns that don't exist**.
@@ -660,7 +660,7 @@ tab-label: data_artifacts_01
 # Spurious Discovery Tests Prompt
 
 ```yaml section-metadata
-font: medium-large
+font-size: medium-large
 ```
 
 Included in prompt:
@@ -780,7 +780,7 @@ tab-label: claude-sonnet-4
 # Results of Spurious Discovery Tests
 
 ```yaml section-metadata
-font: large
+font-size: large
 ```
 
 **Overall outcome**:
